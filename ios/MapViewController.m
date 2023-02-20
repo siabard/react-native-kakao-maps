@@ -58,6 +58,15 @@ NSArray *createMarker(NSArray *markerList, NSString *markerImageUrl, NSString *m
   [self load];
 }
 
+- (void)setZoomLevel:(NSNumber *)zoomLevel {
+  if (zoomLevel == null) {
+    _zoomLevel = 7;
+  } else {
+    _zoomLevel = [zoomLevel intValue];
+  }
+  [self load];
+}
+
 - (void)load {
   if (_mapView == nil) {
     return;
@@ -66,6 +75,7 @@ NSArray *createMarker(NSArray *markerList, NSString *markerImageUrl, NSString *m
   [_mapView removeAllPOIItems];
   [_mapView addPOIItems: createMarker(_markerList, _markerImageUrl, _markerImageName)];
   [_mapView setMapCenterPoint:[MTMapPoint mapPointWithGeoCoord:MTMapPointGeoMake(_lat, _lng)] animated:YES];
+  [_mapView setZoomLevel: _zoomLevel];
 
   [self addSubview: _mapView];
 }

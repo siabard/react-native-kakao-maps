@@ -29,6 +29,7 @@ public class KakaoMapManager extends ViewGroupManager<FrameLayout> {
     private ReactApplicationContext reactContext;
     private KakaoMapFragment fragment;
     private int containerViewId;
+    private int zoomLevel = Constants.INIT_ZOOM_LEVEL;
     private ArrayList markerList;
     private double paramLat = Constants.INIT_LAT;
     private double paramLng = Constants.INIT_LNG;
@@ -59,8 +60,7 @@ public class KakaoMapManager extends ViewGroupManager<FrameLayout> {
     public void receiveCommand(
             @NonNull FrameLayout root,
             String commandId,
-            @Nullable ReadableArray args
-    ) {
+            @Nullable ReadableArray args) {
         super.receiveCommand(root, commandId, args);
         containerViewId = args.getInt(0);
         int commandIdInt = Integer.parseInt(commandId);
@@ -101,6 +101,14 @@ public class KakaoMapManager extends ViewGroupManager<FrameLayout> {
         bundleFragment();
     }
 
+    @ReactProp(name = "zoomLevel")
+    public void setZoomLevel(FrameLayout view, @Nullable Integer _zoomLevel) {
+        if (_zoomLevel != null) {
+            zoomLevel = _zoomLevel;
+        }
+        bundleFragment();
+    }
+
     private void createFragment(FrameLayout root) {
         ViewGroup parentView = (ViewGroup) root.findViewById(containerViewId);
         setupLayout(parentView);
@@ -118,6 +126,7 @@ public class KakaoMapManager extends ViewGroupManager<FrameLayout> {
         bundle.putDouble(Constants.PARAM_LNG, paramLng);
         bundle.putString(Constants.PARAM_MARKER_NAME, markerImageName);
         bundle.putString(Constants.PARAM_MARKER_IMAGE_URL, markerImageUrl);
+        bundle.putInt(Constants.PARAM_ZOOM_LEVEL, zoomLevel);
         bundle.putParcelableArrayList(Constants.PARAM_MARKER_LIST, markerList);
 
         fragment.reactContext = reactContext;

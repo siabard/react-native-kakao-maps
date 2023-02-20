@@ -7,8 +7,9 @@
 @property(nonatomic, assign, nonnull) NSArray *markerList;
 @property(nonatomic, assign) double lat;
 @property(nonatomic, assign) double lng;
+@property(nonatomic, assign) int zoomLevel;
 @property(nonatomic, assign, nonnull) NSString *markerImageUrl;
 @property(nonatomic, assign, nonnull) NSString *markerImageName;
-@property (nonatomic, copy) RCTBubblingEventBlock onChange;
+@property(nonatomic, copy) RCTBubblingEventBlock onChange;
 
 @end
