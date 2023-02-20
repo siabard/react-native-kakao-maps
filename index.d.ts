@@ -26,8 +26,8 @@ interface Params {
 }
 
 interface ComponentProps extends Params {
-  width: number;
-  height: number;
+  width: number | string;
+  height: number | string;
 }
 
 declare const KakaoMapView: React.ComponentType<ComponentProps>;
