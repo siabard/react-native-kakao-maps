@@ -11,4 +11,5 @@ public class Constants {
     public static final String PARAM_LAT = "lat";
     public static final String PARAM_LNG = "lng";
     public static final String PARAM_ZOOM_LEVEL = "zoomLevel";
+    public static final String PARAM_MARKER_URL = "markerUrl";
 }

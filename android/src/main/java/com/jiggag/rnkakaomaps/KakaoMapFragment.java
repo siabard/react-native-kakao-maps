@@ -48,6 +48,10 @@ public class KakaoMapFragment extends Fragment
     }
 
     private void createMapView() {
+        if (mMapView == null) {
+            return;
+        }
+
         mMapView.removeAllPOIItems();
         Integer zoomLevel = getArguments().getInt(Constants.PARAM_ZOOM_LEVEL);
         Double lat = getArguments().getDouble(Constants.PARAM_LAT);
@@ -226,10 +230,28 @@ public class KakaoMapFragment extends Fragment
     private void createMarker(ArrayList<HashMap<String, Object>> markerList, Bitmap markerImage, int markerResourceId) {
         if ((markerList != null ? markerList.size() : 0) > 0) {
             for (int i = 0; i < markerList.size(); i++) {
+                String imageUrl = (String) markerList.get(i).get(Constants.PARAM_MARKER_URL);
+                Bitmap customMakerImage = null;
+                if (imageUrl == null) {
+                    customMakerImage = markerImage;
+                }
+
+                try {
+                    URL url = new URL(imageUrl);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoInput(true);
+                    connection.connect();
+                    InputStream input = connection.getInputStream();
+
+                    customMakerImage = BitmapFactory.decodeStream(input);
+                } catch (IOException e) {
+                    Log.e("getBitmapFromUrl", e.getMessage());
+                }
+
                 String markerName = (String) markerList.get(i).get(Constants.PARAM_MARKER_NAME);
                 Double lat = (Double) markerList.get(i).get(Constants.PARAM_LAT);
                 Double lng = (Double) markerList.get(i).get(Constants.PARAM_LNG);
-                addMarker(mMapView, markerName, lat, lng, i, markerImage, markerResourceId);
+                addMarker(mMapView, markerName, lat, lng, i, customMakerImage, markerResourceId);
             }
         }
     }
